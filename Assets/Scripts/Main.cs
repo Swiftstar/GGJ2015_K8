@@ -27,11 +27,13 @@ public class Main : MonoBehaviour
 
 
 	public static UIManage UIManager;
+    public static CreateMedicine createMedicine;
 	
 	void Awake()
 	{
 		status = EGameStatus.Init;
 		UIManager = UIManage.Instance;
+        createMedicine = CreateMedicine.Instance;
 	} // Awake()
 
 
@@ -43,7 +45,7 @@ public class Main : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-		UIManager.Update();
+        UIManager.Update();
 	} // Update()
 
 	void FixedUpdate()
@@ -74,5 +76,7 @@ public class Main : MonoBehaviour
 		status = EGameStatus.Play;
 
 		Debug.Log( "GameStart!!" );
+        createMedicine.PlayGame();
+        UIManager.StartGame();
 	} // FinishScreenAni()
 }

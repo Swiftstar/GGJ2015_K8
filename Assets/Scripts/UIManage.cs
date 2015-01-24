@@ -73,6 +73,13 @@ public class UIManage {
 	float tempTime;
 	int tempI= 0;
 
+    public void StartGame()
+    {
+        tempI = 1;
+        Sprite_LiverAry[0].fillAmount = 1f;
+    }
+
+    public float SpreadTime = 15;
 	public void Update()
 	{
 		if ( Main.Instance.status == Main.EGameStatus.StartAni )
@@ -84,7 +91,7 @@ public class UIManage {
 
 		if ( Main.Instance.status == Main.EGameStatus.Play )
 		{
-			Sprite_LiverAry[tempI].fillAmount = Mathf.Clamp01( Sprite_LiverAry[tempI].fillAmount + Time.deltaTime );
+            Sprite_LiverAry[tempI].fillAmount = Mathf.Clamp01(Sprite_LiverAry[tempI].fillAmount + Time.deltaTime / SpreadTime);
 			if ( Sprite_LiverAry[tempI].fillAmount >= 1f )
 			{
 				tempI++;
@@ -127,5 +134,23 @@ public class UIManage {
 
 		return true;
 	} // IsWin()
+
+    public void Heal()
+    {
+
+        float nowAmount = Sprite_LiverAry[tempI].fillAmount;
+
+        if (nowAmount >= 0.5f)
+            Sprite_LiverAry[tempI].fillAmount = Mathf.Clamp01(Sprite_LiverAry[tempI].fillAmount - 0.5f);
+        else
+        {
+            Sprite_LiverAry[tempI].fillAmount = 0f;
+
+            tempI--;
+            tempI = Mathf.Clamp(tempI, 0, Sprite_LiverAry.Length - 1); ;
+            Sprite_LiverAry[tempI].fillAmount = Mathf.Clamp01(Sprite_LiverAry[tempI].fillAmount - 0.5f);
+        }
+       
+    }
 
 } // end +UIManage

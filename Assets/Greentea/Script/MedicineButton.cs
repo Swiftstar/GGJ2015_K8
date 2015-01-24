@@ -4,8 +4,14 @@ using System.Collections;
 public class MedicineButton : MonoBehaviour
 {
     public GameObject MedicineObj;
+    public GameObject MedicineBoom;
 
-    public float GetHPTime = 2;
+    public UISprite MedicineSprite;
+    public UISprite GetHPAnmiationSprite;
+
+    public TweenScale _TweenScale;
+
+    public float GetHPTime = 1;
 
 	void Start () 
     {
@@ -16,13 +22,25 @@ public class MedicineButton : MonoBehaviour
     IEnumerator GetHPTimer()
     {
         yield return new WaitForSeconds(GetHPTime);
-        Debug.Log("I got HP");
-        //GetHPAnimationPlay;
+        Main.UIManager.Heal();
+        GetHPAnmiationSprite.enabled = true;
+        this.gameObject.GetComponent<TweenAlpha>().enabled = true;
+        GetHPAnmiationSprite.spriteName = "02";
+        yield return new WaitForSeconds(0.1f);
+        GetHPAnmiationSprite.spriteName = "03";
+        yield return new WaitForSeconds(0.1f);
+        GetHPAnmiationSprite.spriteName = "04";
+        yield return new WaitForSeconds(0.1f);
+        Destroy(this.gameObject);
+        Destroy(GetHPAnmiationSprite.gameObject);
     }
 
     void DestroyAnimation(GameObject e)
     {
         Debug.Log("This Medicine is be destroyed");
-        //DestroyAnimationPlay
+        StopCoroutine("GetHPTimer");
+        MedicineSprite.enabled = false;
+        MedicineBoom.SetActive(true);
     }
+
 }
