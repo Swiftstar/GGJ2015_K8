@@ -3,11 +3,24 @@ using System.Collections;
 
 public class Main : MonoBehaviour
 {
-	public enum EGameStatus
+
+	private static Main instance;
+	public static Main Instance
 	{
+		get
+		{
+			if ( instance == null )
+				instance = Object.FindObjectOfType<Main>();
+			return instance;
+		} // get
+	} // +Instance
+
+	public enum EGameStatus : int
+	{
+		Init = 0,
 		StartScreen,
-		Play,
-		Init
+		StartAni,
+		Play
 	}
 
 	public EGameStatus status { get; private set; }
@@ -24,7 +37,7 @@ public class Main : MonoBehaviour
 
 	// Use this for initialization
 	void Start () {
-
+		status = EGameStatus.StartScreen;
 
 	} // Start()
 	
@@ -32,4 +45,17 @@ public class Main : MonoBehaviour
 	void Update () {
 		UIManager.Update();
 	} // Update()
+
+	public void StartScreenAni( UISprite sprite )
+	{
+		status = EGameStatus.StartAni;
+		sprite.fillAmount = 1f;
+	} // StartScreenAni()
+
+	public void FinishScreenAni()
+	{
+		status = EGameStatus.Play;
+
+		Debug.Log( "GameStart!!" );
+	} // FinishScreenAni()
 }

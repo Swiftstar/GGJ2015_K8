@@ -19,9 +19,13 @@ public class UIManage {
 	UISprite Sprite_LiverBG;
 	UISprite Sprite_LiverDark;
 
+	UIButton Btn_Start;
+
 	public UIManage()
 	{
 		LinkLiver();
+		LinkStart();
+
 	} // end +UIManage
 
 
@@ -35,8 +39,30 @@ public class UIManage {
 
 	} // end -LinkLiver()
 
+	private void LinkStart()
+	{
+		GameObject go = GameObject.Find( CONST.NAME_BTN_START );
+		Btn_Start = go.GetComponent<UIButton>();
+		UIEventListener.Get(go).onClick = OnClick_Start;
+	} // end -LinkStart()
+
 	public void Update()
 	{
+		if ( Main.Instance.status == Main.EGameStatus.StartAni )
+		{
+			Sprite_LiverDark.fillAmount = Mathf.Clamp01( Sprite_LiverDark.fillAmount - Time.deltaTime );
+			if ( Sprite_LiverDark.fillAmount == 0f )
+				Main.Instance.FinishScreenAni();
+		} // if
+
 	} // Update()
+
+	void OnClick_Start( GameObject go )
+	{
+		if (Main.Instance.status == Main.EGameStatus.Init )
+			return;
+		Btn_Start.gameObject.SetActive(false);
+		Main.Instance.StartScreenAni( Sprite_LiverDark );
+	} // end -OnClick_Start()
 
 } // end +UIManage
