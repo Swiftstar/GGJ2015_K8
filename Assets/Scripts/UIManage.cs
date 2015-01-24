@@ -79,7 +79,7 @@ public class UIManage {
         Sprite_LiverAry[0].fillAmount = 1f;
     }
 
-    public float SpreadTime = 15;
+    public float SpreadTime = 10;
 	public void Update()
 	{
 		if ( Main.Instance.status == Main.EGameStatus.StartAni )
@@ -141,14 +141,14 @@ public class UIManage {
         float nowAmount = Sprite_LiverAry[tempI].fillAmount;
 
         if (nowAmount >= 0.5f)
-            Sprite_LiverAry[tempI].fillAmount = Mathf.Clamp01(Sprite_LiverAry[tempI].fillAmount - 0.5f);
+            Sprite_LiverAry[tempI].fillAmount = Mathf.Clamp01(Sprite_LiverAry[tempI].fillAmount - 0.25f);
         else
         {
             Sprite_LiverAry[tempI].fillAmount = 0f;
 
             tempI--;
             tempI = Mathf.Clamp(tempI, 0, Sprite_LiverAry.Length - 1); ;
-            Sprite_LiverAry[tempI].fillAmount = Mathf.Clamp01(Sprite_LiverAry[tempI].fillAmount - 0.5f);
+            Sprite_LiverAry[tempI].fillAmount = Mathf.Clamp01(Sprite_LiverAry[tempI].fillAmount - 0.25f);
         }
        
     }
