@@ -20,12 +20,15 @@ public class UIManage {
 	UISprite Sprite_LiverDark;
 
 	UIButton Btn_Start;
+	UILabel Lbl_Start;
+
+	UISprite[] Sprite_LiverAry;
 
 	public UIManage()
 	{
 		LinkLiver();
 		LinkStart();
-
+		LinkLiverAry();
 	} // end +UIManage
 
 
@@ -44,7 +47,31 @@ public class UIManage {
 		GameObject go = GameObject.Find( CONST.NAME_BTN_START );
 		Btn_Start = go.GetComponent<UIButton>();
 		UIEventListener.Get(go).onClick = OnClick_Start;
+
+		go = GameObject.Find( CONST.NAME_LBL_START );
+		Lbl_Start = go.GetComponent<UILabel>();
 	} // end -LinkStart()
+
+	private void LinkLiverAry()
+	{
+		GameObject go;
+		Sprite_LiverAry = new UISprite[CONST.NAME_LIVER_BLOCK.Length];
+
+		for (int i = 0 ; i < CONST.NAME_LIVER_BLOCK.Length ; i++ )
+		{
+			go = GameObject.Find( CONST.NAME_LIVER_BLOCK[i] );
+			Sprite_LiverAry[i] = go.GetComponent<UISprite>();
+		} // for
+
+		for (int i = 0 ; i < Sprite_LiverAry.Length ; i++ )
+		{
+			Sprite_LiverAry[i].fillAmount = 0f;
+		} // for
+
+	} // end -LinkLiverAry
+
+	float tempTime;
+	int tempI= 0;
 
 	public void Update()
 	{
@@ -55,7 +82,19 @@ public class UIManage {
 				Main.Instance.FinishScreenAni();
 		} // if
 
+		if ( Main.Instance.status == Main.EGameStatus.Play )
+		{
+			Sprite_LiverAry[tempI].fillAmount = Mathf.Clamp01( Sprite_LiverAry[tempI].fillAmount + Time.deltaTime );
+			if ( Sprite_LiverAry[tempI].fillAmount >= 1f )
+			{
+				tempI++;
+				tempI = Mathf.Clamp( tempI, 0, Sprite_LiverAry.Length-1);
+			} // if
+		} // if 
+
 	} // Update()
+
+
 
 	void OnClick_Start( GameObject go )
 	{
@@ -64,5 +103,29 @@ public class UIManage {
 		Btn_Start.gameObject.SetActive(false);
 		Main.Instance.StartScreenAni( Sprite_LiverDark );
 	} // end -OnClick_Start()
+
+	public void WinAndReturn()
+	{
+		Btn_Start.gameObject.SetActive(true);
+		Lbl_Start.text = CONST.WIN_RETRY;
+		Sprite_LiverDark.fillAmount = 1f;
+
+		for ( int i = 0 ; i < Sprite_LiverAry.Length ; i++ )
+		{
+			Sprite_LiverAry[i].fillAmount = 0f;
+		} // for
+		tempI = 0;
+	}
+
+	public bool IsWin()
+	{
+		for ( int i = 0 ; i < Sprite_LiverAry.Length ; i++ )
+		{
+			if ( Sprite_LiverAry[i].fillAmount < 1f )
+				return false;
+		} // for
+
+		return true;
+	} // IsWin()
 
 } // end +UIManage

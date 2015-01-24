@@ -46,6 +46,23 @@ public class Main : MonoBehaviour
 		UIManager.Update();
 	} // Update()
 
+	void FixedUpdate()
+	{
+		if ( status == EGameStatus.Play )
+		{
+			if ( UIManager.IsWin() )
+			{
+				Win();
+			} // if
+		} // if
+	}
+
+	void Win()
+	{
+		UIManager.WinAndReturn();
+		status = EGameStatus.StartScreen;
+	}
+
 	public void StartScreenAni( UISprite sprite )
 	{
 		status = EGameStatus.StartAni;
