@@ -33,6 +33,12 @@ public class CreateMedicine : MonoBehaviour {
         StartCoroutine("CreateTimer");
     }
 
+	public void StopGame()
+	{
+		StopCoroutine("CreateTimer");
+	}
+
+
     void Update()
     {
         if (Main.Instance.status != Main.EGameStatus.Play)

@@ -22,6 +22,6 @@ public static class CONST {
 		"Sprite_Liver10"
 	};
 
-	public const string WIN_RETRY = "Win!!Retry?";
+	public const string RETRY = "Retry?";
 
 } // end +CONST

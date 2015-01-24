@@ -52,7 +52,11 @@ public class Main : MonoBehaviour
 	{
 		if ( status == EGameStatus.Play )
 		{
-			if ( UIManager.IsWin() )
+			if ( UIManager.IsLose() )
+			{
+				Lose();
+			} // if
+			else if ( UIManager.IsWin() )
 			{
 				Win();
 			} // if
@@ -62,6 +66,14 @@ public class Main : MonoBehaviour
 	void Win()
 	{
 		UIManager.WinAndReturn();
+		createMedicine.StopGame();
+		status = EGameStatus.StartScreen;
+	}
+
+	void Lose()
+	{
+		UIManager.GameOver();
+		createMedicine.StopGame();
 		status = EGameStatus.StartScreen;
 	}
 

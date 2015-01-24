@@ -24,6 +24,8 @@ public class UIManage {
 
 	UISprite[] Sprite_LiverAry;
 
+	GameObject winOrLose;
+
 	public UIManage()
 	{
 		LinkLiver();
@@ -109,12 +111,17 @@ public class UIManage {
 			return;
 		Btn_Start.gameObject.SetActive(false);
 		Main.Instance.StartScreenAni( Sprite_LiverDark );
+
+		if ( winOrLose != null )
+			GameObject.Destroy(winOrLose);
 	} // end -OnClick_Start()
 
 	public void WinAndReturn()
 	{
+		winOrLose = GameObject.Instantiate( Resources.Load("Prefabs/Win") ) as GameObject ;
+
 		Btn_Start.gameObject.SetActive(true);
-		Lbl_Start.text = CONST.WIN_RETRY;
+		Lbl_Start.text = CONST.RETRY;
 		Sprite_LiverDark.fillAmount = 1f;
 
 		for ( int i = 0 ; i < Sprite_LiverAry.Length ; i++ )
@@ -122,7 +129,24 @@ public class UIManage {
 			Sprite_LiverAry[i].fillAmount = 0f;
 		} // for
 		tempI = 0;
-	}
+
+	} // WinAndReturn()
+
+	public void GameOver()
+	{
+		winOrLose = GameObject.Instantiate( Resources.Load("Prefabs/Lose") ) as GameObject ;
+
+		Btn_Start.gameObject.SetActive(true);
+		Lbl_Start.text = CONST.RETRY;
+		Sprite_LiverDark.fillAmount = 1f;
+		
+		for ( int i = 0 ; i < Sprite_LiverAry.Length ; i++ )
+		{
+			Sprite_LiverAry[i].fillAmount = 0f;
+		} // for
+		tempI = 0;
+
+	} // GameOver()
 
 	public bool IsWin()
 	{
@@ -134,6 +158,14 @@ public class UIManage {
 
 		return true;
 	} // IsWin()
+
+	public bool IsLose()
+	{
+		if (tempI == 0 && Sprite_LiverAry[tempI].fillAmount == 0f  )
+			return true;
+		else
+			return false;
+	} // IsLose()
 
     public void Heal()
     {
@@ -150,7 +182,6 @@ public class UIManage {
             tempI = Mathf.Clamp(tempI, 0, Sprite_LiverAry.Length - 1); ;
             Sprite_LiverAry[tempI].fillAmount = Mathf.Clamp01(Sprite_LiverAry[tempI].fillAmount - 0.25f);
         }
-       
     }
 
 } // end +UIManage

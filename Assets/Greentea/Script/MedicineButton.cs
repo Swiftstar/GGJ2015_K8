@@ -20,6 +20,15 @@ public class MedicineButton : MonoBehaviour
         StartCoroutine("GetHPTimer");
 	}
 
+	void Update()
+	{
+		if ( Main.Instance.status == Main.EGameStatus.StartScreen )
+		{
+			Destroy(this.gameObject);
+			Destroy(GetHPAnmiationSprite.gameObject);
+		} 
+	}
+
     IEnumerator GetHPTimer()
     {
         yield return new WaitForSeconds(GetHPTime);
