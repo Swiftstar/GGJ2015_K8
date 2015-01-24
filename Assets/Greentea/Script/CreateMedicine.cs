@@ -25,7 +25,7 @@ public class CreateMedicine : MonoBehaviour {
 
     void Start()
     {
-        
+        PlayerPrefs.DeleteAll();
     }
 
     public void PlayGame()

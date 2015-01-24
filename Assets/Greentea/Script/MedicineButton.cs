@@ -10,6 +10,7 @@ public class MedicineButton : MonoBehaviour
     public UISprite GetHPAnmiationSprite;
 
     public TweenScale _TweenScale;
+    public UIButtonSound _ButtonSound;
 
     public float GetHPTime = 1;
 
@@ -37,10 +38,17 @@ public class MedicineButton : MonoBehaviour
 
     void DestroyAnimation(GameObject e)
     {
-        Debug.Log("This Medicine is be destroyed");
         StopCoroutine("GetHPTimer");
+        if (PlayerPrefs.GetInt("LevelSound") == 0)
+        {
+
+        }
+        if (PlayerPrefs.GetInt("LevelSound") < 7)
+        {
+            PlayerPrefs.SetInt("LevelSound", PlayerPrefs.GetInt("LevelSound") + 1);
+        }
+        _ButtonSound.audioClip = Resources.Load("Sound/do0" + PlayerPrefs.GetInt("LevelSound")) as AudioClip;
         MedicineSprite.enabled = false;
         MedicineBoom.SetActive(true);
     }
-
 }
