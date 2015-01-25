@@ -12,9 +12,9 @@ public class MedicineButtonBig : MonoBehaviour
 	public TweenScale _TweenScale;
 	public UIButtonSound _ButtonSound;
 	
-	public float GetHPTime = 1;
+	public float GetHPTime = 3.5f;
 
-	public const int CLICK_MAX = 10;
+	public const int CLICK_MAX = 5;
 	private int ClickNum = 0;
 	
 	void Start () 
@@ -35,35 +35,45 @@ public class MedicineButtonBig : MonoBehaviour
 	
 	IEnumerator GetHPTimer()
 	{
+
 		yield return new WaitForSeconds(GetHPTime);
 		Main.UIManager.HealBig();
+        _AudioSource.clip = GetHPClip;
+        _AudioSource.Play();
 		GetHPAnmiationSprite.enabled = true;
 		this.gameObject.GetComponent<TweenAlpha>().enabled = true;
-        CreateMedicine.Instance.StartCoroutine("CreateTimer");
 		GetHPAnmiationSprite.spriteName = "02";
 		yield return new WaitForSeconds(0.1f);
 		GetHPAnmiationSprite.spriteName = "03";
 		yield return new WaitForSeconds(0.1f);
 		GetHPAnmiationSprite.spriteName = "04";
 		yield return new WaitForSeconds(0.1f);
+        CreateMedicine.Instance.StartCoroutine("CreateTimer");
 		Destroy(this.gameObject);
 		Destroy(GetHPAnmiationSprite.gameObject);
 	}
-	
+
+
+    public AudioSource _AudioSource;
+    public AudioClip GetHPClip;
+    public AudioClip DieClip;
+
 	void DestroyAnimation(GameObject e)
 	{
 		if ( ClickNum < CLICK_MAX )
 		{
 			ClickNum ++;
 			transform.localScale *= 0.9f;
+            _AudioSource.clip = DieClip;
+            _AudioSource.Play();
 			return;
 		} // if
+        if(ClickNum == CLICK_MAX)
+        {
+            StopCoroutine("GetHPTimer");
+        }
 
-		StopCoroutine("GetHPTimer");
-		_ButtonSound.audioClip = Resources.Load("Sound/do0" + PlayerPrefs.GetInt("LevelSound")) as AudioClip;
 		MedicineSprite.enabled = false;
 		MedicineBoom.SetActive(true);
-
-        CreateMedicine.Instance.StartCoroutine("CreateTimer");
 	}
 }

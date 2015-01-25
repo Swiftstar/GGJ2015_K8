@@ -81,7 +81,7 @@ public class UIManage {
         Sprite_LiverAry[0].fillAmount = 1f;
     }
 
-    public float SpreadTime = 10f;
+    public float SpreadTime = 8f;
 
 	public void Update()
 	{
@@ -108,14 +108,9 @@ public class UIManage {
 	{
 		if (Main.Instance.status == Main.EGameStatus.Init )
 			return;
+
 		Btn_Start.gameObject.SetActive(false);
 		Main.Instance.StartScreenAni( Sprite_LiverDark );
-
-        AudioSource _AudioSource = GameObject.Find("BackGroundMusic").GetComponent<AudioSource>();
-        _AudioSource.clip = Resources.Load("Sound/BackGroundMusic") as AudioClip;
-        _AudioSource.loop = true;
-        _AudioSource.volume = 0.35F;
-        _AudioSource.Play();
 
 		if ( winOrLose != null )
 			GameObject.Destroy(winOrLose);
@@ -141,11 +136,14 @@ public class UIManage {
 		} // for
 		tempI = 0;
 
+
+
 	} // WinAndReturn()
 
-	public void GameOver()
+    public void GameOver()
 	{
 		winOrLose = GameObject.Instantiate( Resources.Load("Prefabs/Lose") ) as GameObject ;
+
         AudioSource _AudioSource = GameObject.Find("BackGroundMusic").GetComponent<AudioSource>();
         _AudioSource.clip = Resources.Load("Sound/Lose") as AudioClip;
         _AudioSource.volume = 1;
@@ -162,6 +160,7 @@ public class UIManage {
 		} // for
 		tempI = 0;
 
+
 	} // GameOver()
 
 	public bool IsWin()
@@ -171,7 +170,6 @@ public class UIManage {
 			if ( Sprite_LiverAry[i].fillAmount < 1f )
 				return false;
 		} // for
-
 		return true;
 	} // IsWin()
 

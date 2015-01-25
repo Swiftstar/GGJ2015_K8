@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class CreateMedicine : MonoBehaviour {
+public class CreateMedicine : MonoBehaviour
+{
 
     private static CreateMedicine instance;
     public static CreateMedicine Instance
@@ -40,36 +41,49 @@ public class CreateMedicine : MonoBehaviour {
     }
 
     public GameObject[] Cancer;
+    public GameObject[] spreadAnimation;
+    public UISprite[] SpreadSprite;
     void Update()
     {
         if (Main.Instance.status != Main.EGameStatus.Play)
             return;
 
         switch (UIManage.Instance.tempI)
-        { 
+        {
             case 0:
-                Cancer[0].SetActive(false);
-                Cancer[1].SetActive(false);
-                Cancer[2].SetActive(false);
+                SpreadSprite[0].enabled = false;
+                spreadAnimation[0].SetActive(true);
                 break;
             case 1:
             case 2:
-            case 3:
+                SpreadSprite[0].enabled = true;
+                spreadAnimation[0].SetActive(false);
                 Cancer[0].SetActive(true);
                 Cancer[1].SetActive(false);
                 Cancer[2].SetActive(false);
+                break;
+            case 3:
+                SpreadSprite[1].enabled = false;
+                spreadAnimation[1].SetActive(true);
                 break;
             case 4:
             case 5:
             case 6:
-            case 7:
+                spreadAnimation[1].SetActive(false);
+                SpreadSprite[1].enabled = true;
                 Cancer[0].SetActive(true);
                 Cancer[1].SetActive(true);
                 Cancer[2].SetActive(false);
                 break;
+            case 7:
+                SpreadSprite[2].enabled = false;
+                spreadAnimation[2].SetActive(true);
+                break;
             case 8:
             case 9:
             case 10:
+                spreadAnimation[2].SetActive(false);
+                SpreadSprite[2].enabled = true;
                 Cancer[0].SetActive(true);
                 Cancer[1].SetActive(true);
                 Cancer[2].SetActive(true);
@@ -82,7 +96,7 @@ public class CreateMedicine : MonoBehaviour {
     {
         yield return new WaitForSeconds(CreateTime);
 
-        if (PartCount < 15)
+        if (PartCount < 8)
         {
             PartCount++;
             Debug.Log(PartCount);
@@ -96,7 +110,7 @@ public class CreateMedicine : MonoBehaviour {
     private int thisPartMode = 0;
 
     public List<int> thisModeRandom = new List<int>();
-    
+
     void ChoiceMode()
     {
         thisPartPosition.Clear();
@@ -104,7 +118,7 @@ public class CreateMedicine : MonoBehaviour {
 
         thisPartMode = Random.Range(1, ModeCount + 1);
         pastPartMode = thisPartMode;
-        StartCoroutine("Mode",thisPartMode);
+        StartCoroutine("Mode", thisPartMode);
     }
 
     public List<Transform> thisPartPosition = new List<Transform>();
@@ -266,15 +280,16 @@ public class CreateMedicine : MonoBehaviour {
             yield return new WaitForSeconds(EveryMedicineCreateTime);
         }
 
-        if (PartCount == 5)
+        if (PartCount == 8)
         {
-            int randTemp = Random.Range(0, 3);
-            GameObject go = Instantiate(Resources.Load("Prefabs/MedicineBig"), BigPillPosition[randTemp].position, BigPillPosition[randTemp].rotation) as GameObject;
-            go.name = randTemp.ToString();
+            yield return new WaitForSeconds(EveryMedicineCreateTime + 1.2f);
+            GameObject go = Instantiate(Resources.Load("Prefabs/MedicineBig"), Vector3.zero, Quaternion.identity) as GameObject;
+            go.name = "1";
             go.transform.parent = BigPillParent;
-            go.transform.localScale = new Vector2(24, 32);
+            go.transform.localScale = new Vector2(90, 120);
 
             PartCount = 0;
+            StopCoroutine("CreateTimer");
         }
         else
         {
