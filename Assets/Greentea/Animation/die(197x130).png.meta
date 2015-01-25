@@ -1,12 +1,11 @@
 fileFormatVersion: 2
-guid: 404f8973645a5574b92dfc62a83855be
+guid: ba5dbc1506c5aa5479d565c83f4f99b8
 TextureImporter:
   fileIDToRecycleName:
-    21300000: big boom_0
-    21300002: big boom_1
-    21300004: big boom_2
-    21300006: big boom_3
-    21300008: big boom_4
+    21300000: die(197x130)_0
+    21300002: die(197x130)_1
+    21300004: die(197x130)_2
+    21300006: die(197x130)_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -48,53 +47,43 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: big boom_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 1024
-        width: 1024
-        height: 1024
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: big boom_1
-      rect:
-        serializedVersion: 2
-        x: 1024
-        y: 1024
-        width: 1024
-        height: 1024
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: big boom_2
-      rect:
-        serializedVersion: 2
-        x: 2048
-        y: 1024
-        width: 1024
-        height: 1024
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: big boom_3
+    - name: die(197x130)_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1024
-        height: 1024
+        width: 197
+        height: 130
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: big boom_4
+    - name: die(197x130)_1
       rect:
         serializedVersion: 2
-        x: 1024
+        x: 197
         y: 0
-        width: 1024
-        height: 1024
+        width: 197
+        height: 130
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: die(197x130)_2
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 0
+        width: 197
+        height: 130
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: die(197x130)_3
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 0
+        width: 197
+        height: 130
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

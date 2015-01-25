@@ -56,14 +56,26 @@ public class Main : MonoBehaviour
 			{
 				Win();
 			} // if
+            else if (UIManager.IsLose())
+            {
+                Lose();
+            }
 		} // if
 	}
 
 	void Win()
 	{
+        createMedicine.ExitGame();
 		UIManager.WinAndReturn();
 		status = EGameStatus.StartScreen;
 	}
+
+    void Lose()
+    {
+        createMedicine.ExitGame();
+        UIManager.GameOver();
+        status = EGameStatus.StartScreen;
+    }
 
 	public void StartScreenAni( UISprite sprite )
 	{

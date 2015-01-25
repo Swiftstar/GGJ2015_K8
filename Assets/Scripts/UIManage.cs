@@ -24,6 +24,8 @@ public class UIManage {
 
 	UISprite[] Sprite_LiverAry;
 
+	GameObject winOrLose;
+
 	public UIManage()
 	{
 		LinkLiver();
@@ -71,7 +73,7 @@ public class UIManage {
 	} // end -LinkLiverAry
 
 	float tempTime;
-	int tempI= 0;
+	public int tempI= 0;
 
     public void StartGame()
     {
@@ -79,7 +81,8 @@ public class UIManage {
         Sprite_LiverAry[0].fillAmount = 1f;
     }
 
-    public float SpreadTime = 10;
+    public float SpreadTime = 10f;
+
 	public void Update()
 	{
 		if ( Main.Instance.status == Main.EGameStatus.StartAni )
@@ -101,20 +104,35 @@ public class UIManage {
 
 	} // Update()
 
-
-
 	void OnClick_Start( GameObject go )
 	{
 		if (Main.Instance.status == Main.EGameStatus.Init )
 			return;
 		Btn_Start.gameObject.SetActive(false);
 		Main.Instance.StartScreenAni( Sprite_LiverDark );
+
+        AudioSource _AudioSource = GameObject.Find("BackGroundMusic").GetComponent<AudioSource>();
+        _AudioSource.clip = Resources.Load("Sound/BackGroundMusic") as AudioClip;
+        _AudioSource.loop = true;
+        _AudioSource.volume = 0.35F;
+        _AudioSource.Play();
+
+		if ( winOrLose != null )
+			GameObject.Destroy(winOrLose);
 	} // end -OnClick_Start()
 
 	public void WinAndReturn()
 	{
+		winOrLose = GameObject.Instantiate( Resources.Load("Prefabs/Win") ) as GameObject ;
+
+        AudioSource _AudioSource = GameObject.Find("BackGroundMusic").GetComponent<AudioSource>();
+        _AudioSource.clip = Resources.Load("Sound/Win") as AudioClip;
+        _AudioSource.loop = false;
+        _AudioSource.volume = 1;
+        _AudioSource.Play();
+
 		Btn_Start.gameObject.SetActive(true);
-		Lbl_Start.text = CONST.WIN_RETRY;
+		Lbl_Start.text = CONST.RETRY;
 		Sprite_LiverDark.fillAmount = 1f;
 
 		for ( int i = 0 ; i < Sprite_LiverAry.Length ; i++ )
@@ -122,7 +140,29 @@ public class UIManage {
 			Sprite_LiverAry[i].fillAmount = 0f;
 		} // for
 		tempI = 0;
-	}
+
+	} // WinAndReturn()
+
+	public void GameOver()
+	{
+		winOrLose = GameObject.Instantiate( Resources.Load("Prefabs/Lose") ) as GameObject ;
+        AudioSource _AudioSource = GameObject.Find("BackGroundMusic").GetComponent<AudioSource>();
+        _AudioSource.clip = Resources.Load("Sound/Lose") as AudioClip;
+        _AudioSource.volume = 1;
+        _AudioSource.loop = false;
+        _AudioSource.Play();
+
+		Btn_Start.gameObject.SetActive(true);
+		Lbl_Start.text = CONST.RETRY;
+		Sprite_LiverDark.fillAmount = 1f;
+		
+		for ( int i = 0 ; i < Sprite_LiverAry.Length ; i++ )
+		{
+			Sprite_LiverAry[i].fillAmount = 0f;
+		} // for
+		tempI = 0;
+
+	} // GameOver()
 
 	public bool IsWin()
 	{
@@ -134,6 +174,14 @@ public class UIManage {
 
 		return true;
 	} // IsWin()
+
+	public bool IsLose()
+	{
+		if (tempI == 0 && Sprite_LiverAry[tempI].fillAmount == 0f  )
+			return true;
+		else
+			return false;
+	} // IsLose()
 
     public void Heal()
     {
@@ -150,7 +198,15 @@ public class UIManage {
             tempI = Mathf.Clamp(tempI, 0, Sprite_LiverAry.Length - 1); ;
             Sprite_LiverAry[tempI].fillAmount = Mathf.Clamp01(Sprite_LiverAry[tempI].fillAmount - 0.25f);
         }
-       
     }
+
+	public void HealBig()
+	{
+		tempI = Mathf.Clamp(tempI, 0, Sprite_LiverAry.Length - 1);
+		Sprite_LiverAry[tempI].fillAmount = 0f;
+		tempI--;
+		tempI = Mathf.Clamp(tempI, 0, Sprite_LiverAry.Length - 1);
+		Sprite_LiverAry[tempI].fillAmount = 0f;
+	}
 
 } // end +UIManage

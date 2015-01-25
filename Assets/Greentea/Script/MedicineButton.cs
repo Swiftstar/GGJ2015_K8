@@ -10,7 +10,6 @@ public class MedicineButton : MonoBehaviour
     public UISprite GetHPAnmiationSprite;
 
     public TweenScale _TweenScale;
-    public UIButtonSound _ButtonSound;
 
     public float GetHPTime = 1;
 
@@ -20,10 +19,21 @@ public class MedicineButton : MonoBehaviour
         StartCoroutine("GetHPTimer");
 	}
 
+    void Update()
+    {
+        if (Main.Instance.status == Main.EGameStatus.StartScreen )
+        {
+            Destroy(this.gameObject);
+            Destroy(GetHPAnmiationSprite.gameObject);
+        }
+    }
+
     IEnumerator GetHPTimer()
     {
         yield return new WaitForSeconds(GetHPTime);
         Main.UIManager.Heal();
+        _AudioSource.clip = GetHPClip;
+        _AudioSource.Play();
         GetHPAnmiationSprite.enabled = true;
         this.gameObject.GetComponent<TweenAlpha>().enabled = true;
         GetHPAnmiationSprite.spriteName = "02";
@@ -36,18 +46,14 @@ public class MedicineButton : MonoBehaviour
         Destroy(GetHPAnmiationSprite.gameObject);
     }
 
+    public AudioSource _AudioSource;
+    public AudioClip GetHPClip;
+    public AudioClip DieClip;
     void DestroyAnimation(GameObject e)
     {
         StopCoroutine("GetHPTimer");
-        if (PlayerPrefs.GetInt("LevelSound") == 0)
-        {
-
-        }
-        if (PlayerPrefs.GetInt("LevelSound") < 7)
-        {
-            PlayerPrefs.SetInt("LevelSound", PlayerPrefs.GetInt("LevelSound") + 1);
-        }
-        _ButtonSound.audioClip = Resources.Load("Sound/do0" + PlayerPrefs.GetInt("LevelSound")) as AudioClip;
+        _AudioSource.clip = DieClip;
+        _AudioSource.Play();
         MedicineSprite.enabled = false;
         MedicineBoom.SetActive(true);
     }
